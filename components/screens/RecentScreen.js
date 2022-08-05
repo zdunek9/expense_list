@@ -3,57 +3,29 @@ import { FlatList, StyleSheet, Text, View } from "react-native";
 import DropDown from "../DropDown";
 import RecentItem from "../RecentItem";
 import { useSelector } from "react-redux";
-import {
-  sub,
-  parseISO,
-} from "date-fns";
+import { sub, parseISO } from "date-fns";
+import { sumUp } from "../helpers/TimeAgo";
 
 function RecentScreen({ navigation }) {
-  // const itemsData = useSelector((state) => state.counter.items);
-  const itemsData = [
-    {
-      date: "2022-07-30",
-      id: "zDf6poXK1CcCXjFfzuw4fY",
-      name: "1",
-      price: "255",
-    },
-    {
-      date: "2022-07-23",
-      id: "zDf6poXK1CcCXjFfzu44fY",
-      name: "2",
-      price: "256",
-    },
-    {
-      date: "2022-07-20",
-      id: "zDf6poXK1CcCXjFfzu4f2Y",
-      name: "3",
-      price: "285",
-    },
-    {
-      date: "2022-08-01",
-      id: "zDf6poXK1CceCXjFfzu4f2Y",
-      name: "4",
-      price: "285",
-    },
-    {
-      date: "2022-07-15",
-      id: "zDf6poXK1CcCXjdFfzu4f2Y",
-      name: "5",
-      price: "285",
-    },
-    {
-      date: "2022-07-01",
-      id: "zDf6poXK1CcCXjFfzud4f2Y",
-      name: "6",
-      price: "285",
-    },
-  ];
+  const itemsData = useSelector((state) => state.counter.items);
   const [sortedData, setSortedData] = useState(itemsData);
+  const [lastSelectedFilter, setLastSelectedFilter] = useState("7"); //domyślnie sortuje 7 dni wstecz
+  const [totalCost, setTotalCost] = useState(0);
 
   function addItemHandler() {
     navigation.navigate("Add Item");
   }
+
+  function sortArrayASC(newArray) {
+    newArray.sort((a, b) => {
+      let aDate = new Date(a.date);
+      let bDate = new Date(b.date);
+      return bDate - aDate;
+    });
+    return newArray;
+  }
   function filterData(value) {
+    setLastSelectedFilter(value);
     const dif = sub(new Date(), {
       days: value,
     });
@@ -62,6 +34,7 @@ function RecentScreen({ navigation }) {
         const newArray = itemsData.filter(
           (element) => parseISO(element.date) > dif
         );
+        sortArrayASC(newArray);
         return newArray;
       });
     } else if (value === "14") {
@@ -69,6 +42,7 @@ function RecentScreen({ navigation }) {
         const newArray = itemsData.filter(
           (element) => parseISO(element.date) > dif
         );
+        sortArrayASC(newArray);
         return newArray;
       });
     } else if (value === "30") {
@@ -76,20 +50,24 @@ function RecentScreen({ navigation }) {
         const newArray = itemsData.filter(
           (element) => parseISO(element.date) > dif
         );
+        sortArrayASC(newArray);
         return newArray;
       });
     }
-    // setSortedData(itemsData);
   }
-  // useEffect(() => {
-  //   setSortedData(itemsData);
-  // }, [itemsData]);
-  console.log(sortedData);
+  useEffect(() => {
+    setSortedData(itemsData);
+    filterData(lastSelectedFilter);
+  }, [itemsData, lastSelectedFilter]);
+  useEffect(()=>{
+    setTotalCost(sumUp(sortedData));
+  },[sortedData])
   return (
     <View style={styles.wrapper}>
       <DropDown
         addItemHandler={addItemHandler}
         setChosenSort={(value) => filterData(value)}
+        totalCost={totalCost}
       />
       <FlatList
         data={sortedData}

@@ -11,10 +11,10 @@ import { useDispatch } from "react-redux";
 import AddInput from "../AddInput";
 import ButtonComponent from "../ButtonComponent";
 import { counterActions } from "../store/store";
-import 'react-native-get-random-values'
+import "react-native-get-random-values";
 import { nanoid } from "nanoid";
 
-function AddScreen({navigation}) {
+function AddScreen({ navigation }) {
   const [inputName, setInputName] = useState("");
   const [inputPrice, setInputPrice] = useState("");
 
@@ -22,10 +22,10 @@ function AddScreen({navigation}) {
   function addItemFunc() {
     dispatch(
       counterActions.addItem({
+        date: new Date().toISOString(),
         id: nanoid(),
         name: inputName,
         price: inputPrice,
-        date: new Date().getDate
       })
     );
     navigation.navigate("Item List");
