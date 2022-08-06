@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import {
+  Alert,
   KeyboardAvoidingView,
   ScrollView,
   StyleSheet,
@@ -17,19 +18,29 @@ import { nanoid } from "nanoid";
 function AddScreen({ navigation }) {
   const [inputName, setInputName] = useState("");
   const [inputPrice, setInputPrice] = useState("");
-
   const dispatch = useDispatch();
   function addItemFunc() {
+    if (
+      inputName.trim() === "" ||
+      parseFloat(inputPrice) === 0 ||
+      inputPrice.trim() === ""
+    ) {
+      Alert.alert("Wrong data", "Name or Price cannot be 0.");
+      return;
+    }
     dispatch(
       counterActions.addItem({
         date: new Date().toISOString(),
         id: nanoid(),
         name: inputName,
-        price: inputPrice,
+        price: inputPrice.replace(/^0+/, ""),
       })
     );
     navigation.navigate("Item List");
   }
+  // function cancellFunc(){
+  //   navigation.navigate("Item List");
+  // }
   return (
     <ScrollView style={styles.screen}>
       <KeyboardAvoidingView style={styles.screen} behavior="position">
@@ -40,6 +51,7 @@ function AddScreen({ navigation }) {
               text={"Enter Name"}
               onInputValue={inputName}
               onSetInputValue={setInputName}
+              maxLength={50}
             />
           </View>
           <View style={styles.parting}>
@@ -49,11 +61,16 @@ function AddScreen({ navigation }) {
               inputType={"number-pad"}
               onInputValue={inputPrice}
               onSetInputValue={setInputPrice}
+              maxLength={6}
             />
           </View>
           <View style={styles.buttons}>
             <View style={styles.button}>
-              <ButtonComponent>Cancel</ButtonComponent>
+              <ButtonComponent
+                addItemFunc={() => navigation.navigate("Item List")}
+              >
+                Cancel
+              </ButtonComponent>
             </View>
             <View style={styles.button}>
               <ButtonComponent addItemFunc={addItemFunc}>Add</ButtonComponent>

@@ -4,7 +4,7 @@ import DropDown from "../DropDown";
 import RecentItem from "../RecentItem";
 import { useSelector } from "react-redux";
 import { sub, parseISO } from "date-fns";
-import { sumUp } from "../helpers/TimeAgo";
+import { sortArrayASC, sumUp } from "../helpers/TimeAgo";
 
 function RecentScreen({ navigation }) {
   const itemsData = useSelector((state) => state.counter.items);
@@ -15,14 +15,13 @@ function RecentScreen({ navigation }) {
   function addItemHandler() {
     navigation.navigate("Add Item");
   }
-
-  function sortArrayASC(newArray) {
-    newArray.sort((a, b) => {
-      let aDate = new Date(a.date);
-      let bDate = new Date(b.date);
-      return bDate - aDate;
+  function editItemHandler(item) {
+    // console.log(item);
+    navigation.navigate("Edit Item", {
+      name: item.name,
+      price: item.price,
+      id:item.id,
     });
-    return newArray;
   }
   function filterData(value) {
     setLastSelectedFilter(value);
@@ -59,9 +58,9 @@ function RecentScreen({ navigation }) {
     setSortedData(itemsData);
     filterData(lastSelectedFilter);
   }, [itemsData, lastSelectedFilter]);
-  useEffect(()=>{
+  useEffect(() => {
     setTotalCost(sumUp(sortedData));
-  },[sortedData])
+  }, [sortedData]);
   return (
     <View style={styles.wrapper}>
       <DropDown
@@ -74,9 +73,11 @@ function RecentScreen({ navigation }) {
         keyExtractor={(itemData) => itemData.id}
         renderItem={(itemData) => (
           <RecentItem
+            id={itemData.item.id}
             name={itemData.item.name}
             price={itemData.item.price}
             date={itemData.item.date}
+            navigate={editItemHandler}
           />
         )}
       />

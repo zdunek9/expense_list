@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { Dropdown } from "react-native-element-dropdown";
 
@@ -28,13 +28,20 @@ function DropDown({ addItemHandler, setChosenSort, totalCost }) {
         placeholder="Last 7 days"
         placeholderStyle={styles.placeholderStyle}
       />
-      <AntDesign
-        name="plus"
-        size={28}
-        color="black"
-        style={styles.antDesign}
-        onPress={addItemHandler}
-      />
+      <View style={styles.buttonWrapper}>
+        <Pressable
+          style={({ pressed }) =>
+            pressed ? [styles.buttonStyle, styles.pressed] : styles.buttonStyle
+          }
+          onPress={addItemHandler}
+        >
+          <AntDesign
+            name="plus"
+            size={28}
+            color="black"
+          />
+        </Pressable>
+      </View>
     </View>
   );
 }
@@ -58,7 +65,17 @@ const styles = StyleSheet.create({
   placeholderStyle: {
     fontSize: 16,
   },
-  antDesign: {
-    marginLeft: 20,
+
+  buttonWrapper: {
+    borderRadius: 10,
+    overflow: "hidden",
+    marginLeft:10,
+  },
+  buttonStyle: {
+    padding: 10,
+    backgroundColor: "#d2acac",
+  },
+  pressed: {
+    opacity: 0.75,
   },
 });

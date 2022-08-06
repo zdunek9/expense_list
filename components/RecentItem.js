@@ -1,18 +1,28 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { TimeAgo } from "./helpers/TimeAgo";
 
-function RecentItem({ name, price, date }) {
+function RecentItem({id, name, price, date,navigate }) {
+  function editItemHandler(){
+    navigate({
+      id,
+      name,
+      price,
+      date
+    })
+  }
   return (
-    <View style={styles.itemWrapper}>
-      <View style={styles.nameDate}>
-        <Text style={[{ fontSize: 19 }]}>{name}</Text>
-        <TimeAgo timestamp={date} />
+    <Pressable onPress={editItemHandler}>
+      <View style={styles.itemWrapper}>
+        <View style={styles.nameDate}>
+          <Text style={[{ fontSize: 19 }]}>{name}</Text>
+          <TimeAgo timestamp={date} />
+        </View>
+        <View style={styles.price}>
+          <Text style={styles.pricee}>{price}$</Text>
+        </View>
       </View>
-      <View style={styles.price}>
-        <Text style={styles.pricee}>{price}$</Text>
-      </View>
-    </View>
+    </Pressable>
   );
 }
 
@@ -32,5 +42,8 @@ const styles = StyleSheet.create({
   },
   pricee: {
     fontSize: 20,
+  },
+  nameDate: {
+    maxWidth: "75%",
   },
 });
