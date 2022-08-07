@@ -4,7 +4,7 @@ import DropDown from "../DropDown";
 import RecentItem from "../RecentItem";
 import { useSelector } from "react-redux";
 import { sub, parseISO } from "date-fns";
-import { sortArrayASC, sumUp } from "../helpers/TimeAgo";
+import { sortArrayASC, sumUp } from "../helpers/HelpersFunctions";
 
 function RecentScreen({ navigation }) {
   const itemsData = useSelector((state) => state.counter.items);
@@ -16,11 +16,10 @@ function RecentScreen({ navigation }) {
     navigation.navigate("Add Item");
   }
   function editItemHandler(item) {
-    // console.log(item);
     navigation.navigate("Edit Item", {
       name: item.name,
       price: item.price,
-      id:item.id,
+      id: item.id,
     });
   }
   function filterData(value) {

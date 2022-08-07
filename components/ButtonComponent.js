@@ -1,14 +1,14 @@
 import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
-function ButtonComponent({ children, addItemFunc }) {
+function ButtonComponent({ children, btnClickHandler }) {
   return (
     <View style={styles.buttonWrapper}>
       <Pressable
         style={({ pressed }) =>
           pressed ? [styles.buttonStyle, styles.pressed] : styles.buttonStyle
         }
-        onPress={addItemFunc}
+        onPress={btnClickHandler}
       >
         <Text>{children}</Text>
       </Pressable>

@@ -20,10 +20,12 @@ function AddScreen({ navigation }) {
   const [inputPrice, setInputPrice] = useState("");
   const dispatch = useDispatch();
   function addItemFunc() {
+    const priceFormated = parseFloat(inputPrice.replace(",", ".")).toFixed(2);
     if (
       inputName.trim() === "" ||
-      parseFloat(inputPrice) === 0 ||
-      inputPrice.trim() === ""
+      priceFormated === '0.00' ||
+      priceFormated.trim() === "" ||
+      isNaN(priceFormated)
     ) {
       Alert.alert("Wrong data", "Name or Price cannot be 0.");
       return;
@@ -33,14 +35,12 @@ function AddScreen({ navigation }) {
         date: new Date().toISOString(),
         id: nanoid(),
         name: inputName,
-        price: inputPrice.replace(/^0+/, ""),
+        price: priceFormated,
       })
     );
     navigation.navigate("Item List");
   }
-  // function cancellFunc(){
-  //   navigation.navigate("Item List");
-  // }
+
   return (
     <ScrollView style={styles.screen}>
       <KeyboardAvoidingView style={styles.screen} behavior="position">
@@ -58,22 +58,24 @@ function AddScreen({ navigation }) {
             <Text style={styles.title}>Price</Text>
             <AddInput
               text={"Enter Price"}
-              inputType={"number-pad"}
+              inputType={"numeric"}
               onInputValue={inputPrice}
               onSetInputValue={setInputPrice}
-              maxLength={6}
+              maxLength={7}
             />
           </View>
           <View style={styles.buttons}>
             <View style={styles.button}>
               <ButtonComponent
-                addItemFunc={() => navigation.navigate("Item List")}
+                btnClickHandler={() => navigation.navigate("Item List")}
               >
                 Cancel
               </ButtonComponent>
             </View>
             <View style={styles.button}>
-              <ButtonComponent addItemFunc={addItemFunc}>Add</ButtonComponent>
+              <ButtonComponent btnClickHandler={addItemFunc}>
+                Add
+              </ButtonComponent>
             </View>
           </View>
         </View>
@@ -88,7 +90,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   wrapper: {
-    marginTop: 100,
+    marginTop: 60,
     padding: 15,
     borderRadius: 10,
     backgroundColor: "white",

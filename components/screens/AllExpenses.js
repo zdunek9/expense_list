@@ -1,10 +1,9 @@
 import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
-import { sortArrayASC, sumUp } from "../helpers/TimeAgo";
+import { sortArrayASC, sumUp } from "../helpers/HelpersFunctions";
 import RecentItem from "../RecentItem";
 import { AntDesign } from "@expo/vector-icons";
-import ButtonComponent from "../ButtonComponent";
 
 function AllExpenses({ navigation }) {
   const itemsData = useSelector((state) => state.counter.items);
@@ -18,6 +17,13 @@ function AllExpenses({ navigation }) {
 
   function addItemHandler() {
     navigation.navigate("Add Item");
+  }
+  function editItemHandler(item) {
+    navigation.navigate("Edit Item", {
+      name: item.name,
+      price: item.price,
+      id: item.id,
+    });
   }
   return (
     <View style={styles.wrapper}>
@@ -33,6 +39,7 @@ function AllExpenses({ navigation }) {
             name={itemData.item.name}
             price={itemData.item.price}
             date={itemData.item.date}
+            navigate={editItemHandler}
           />
         )}
       />

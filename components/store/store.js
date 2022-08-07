@@ -49,7 +49,19 @@ const counterSlice = createSlice({
       state.items.push(action.payload);
     },
     removeItem(state, action) {
-      state.items.filter((item) => item.id === action.payload);
+      state.items = state.items.filter((item) => item.id !== action.payload);
+    },
+    changeName(state, action) {
+      const item = state.items.findIndex(
+        (item) => item.id === action.payload.id
+      );
+      state.items[item].name = action.payload.name;
+    },
+    changePrice(state, action) {
+      const item = state.items.findIndex(
+        (item) => item.id === action.payload.id
+      );
+      state.items[item].price = action.payload.price;
     },
   },
 });

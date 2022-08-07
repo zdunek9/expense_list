@@ -1,6 +1,6 @@
 import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import { TimeAgo } from "./helpers/TimeAgo";
+import { TimeAgo } from "./helpers/HelpersFunctions";
 
 function RecentItem({id, name, price, date,navigate }) {
   function editItemHandler(){
