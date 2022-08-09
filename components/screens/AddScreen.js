@@ -1,4 +1,3 @@
-import React from "react";
 import { useState } from "react";
 import {
   Alert,
@@ -8,37 +7,28 @@ import {
   Text,
   View,
 } from "react-native";
-import { useDispatch } from "react-redux";
 import AddInput from "../AddInput";
 import ButtonComponent from "../ButtonComponent";
-import { counterActions } from "../store/store";
 import "react-native-get-random-values";
-import { nanoid } from "nanoid";
 
 function AddScreen({ navigation }) {
   const [inputName, setInputName] = useState("");
   const [inputPrice, setInputPrice] = useState("");
-  const dispatch = useDispatch();
   function addItemFunc() {
     const priceFormated = parseFloat(inputPrice.replace(",", ".")).toFixed(2);
     if (
       inputName.trim() === "" ||
-      priceFormated === '0.00' ||
+      priceFormated === "0.00" ||
       priceFormated.trim() === "" ||
       isNaN(priceFormated)
     ) {
       Alert.alert("Wrong data", "Name or Price cannot be 0.");
       return;
     }
-    dispatch(
-      counterActions.addItem({
-        date: new Date().toISOString(),
-        id: nanoid(),
-        name: inputName,
-        price: priceFormated,
-      })
-    );
-    navigation.navigate("Item List");
+    navigation.navigate("SelectCategoryModal", {
+      name: inputName,
+      price: priceFormated,
+    });
   }
 
   return (
@@ -64,6 +54,7 @@ function AddScreen({ navigation }) {
               maxLength={7}
             />
           </View>
+
           <View style={styles.buttons}>
             <View style={styles.button}>
               <ButtonComponent
@@ -92,8 +83,15 @@ const styles = StyleSheet.create({
   wrapper: {
     marginTop: 60,
     padding: 15,
+    marginHorizontal:20,
     borderRadius: 10,
     backgroundColor: "white",
+    shadowColor: '#171717',
+    shadowOffset: {width: -2, height: 4},
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 6,
+    shadowColor: '#52006A',
   },
   parting: {
     marginVertical: 25,

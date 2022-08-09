@@ -4,7 +4,11 @@ import DropDown from "../DropDown";
 import RecentItem from "../RecentItem";
 import { useSelector } from "react-redux";
 import { sub, parseISO } from "date-fns";
-import { sortArrayASC, sumUp } from "../helpers/HelpersFunctions";
+import {
+  getDecimalPoint,
+  sortArrayASC,
+  sumUp,
+} from "../helpers/HelpersFunctions";
 
 function RecentScreen({ navigation }) {
   const itemsData = useSelector((state) => state.counter.items);
@@ -62,6 +66,12 @@ function RecentScreen({ navigation }) {
   }, [sortedData]);
   return (
     <View style={styles.wrapper}>
+      <View style={styles.totalCostWrapper}>
+        <Text style={styles.textTotalCostWrapper}>Spent last {lastSelectedFilter} days</Text>
+        <Text style={styles.dolarTotalCostWrapper}>$</Text>
+        <Text style={styles.priceTotalCostWrapper}>{parseInt(totalCost)}</Text>
+        <Text style={styles.decimalTotalCostWrapper}>.{getDecimalPoint(totalCost)}</Text>
+      </View>
       <DropDown
         addItemHandler={addItemHandler}
         setChosenSort={(value) => filterData(value)}
@@ -76,6 +86,7 @@ function RecentScreen({ navigation }) {
             name={itemData.item.name}
             price={itemData.item.price}
             date={itemData.item.date}
+            cat={itemData.item.cat}
             navigate={editItemHandler}
           />
         )}
@@ -87,7 +98,33 @@ function RecentScreen({ navigation }) {
 export default RecentScreen;
 const styles = StyleSheet.create({
   wrapper: {
-    marginTop: 30,
     flex: 1,
   },
+  totalCostWrapper:{
+    flexDirection:"row",
+    flexWrap:"wrap",
+    justifyContent:"center",
+    alignContent:"center",
+    alignItems:"flex-start",
+    height: '35%'
+  },
+  textTotalCostWrapper:{
+    width: "100%",
+    textAlign:"center",
+    color:"grey",
+    fontWeight:'500'
+  },
+  priceTotalCostWrapper:{
+    fontSize:55,
+  },
+  decimalTotalCostWrapper:{
+    paddingTop:10,
+    fontSize:25
+  },
+  dolarTotalCostWrapper:{
+    paddingTop:10,
+    fontSize:25,
+    color:"grey",
+    fontWeight:"300"
+  }
 });

@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { Dropdown } from "react-native-element-dropdown";
 
-function DropDown({ addItemHandler, setChosenSort, totalCost }) {
+function DropDown({ addItemHandler, setChosenSort }) {
   const [filterData, setFilterData] = useState(1);
   let data = [
     { label: "Last 7 days", value: "7" },
@@ -17,7 +17,6 @@ function DropDown({ addItemHandler, setChosenSort, totalCost }) {
 
   return (
     <View style={styles.wrapper}>
-      <Text style={styles.summaryPrice}>{totalCost}$ - </Text>
       <Dropdown
         data={data}
         style={styles.dropDownList}
@@ -57,10 +56,6 @@ const styles = StyleSheet.create({
   },
   dropDownList: {
     flex: 1,
-  },
-  summaryPrice: {
-    marginRight: 10,
-    fontSize: 20,
   },
   placeholderStyle: {
     fontSize: 16,

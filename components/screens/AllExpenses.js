@@ -39,6 +39,7 @@ function AllExpenses({ navigation }) {
             name={itemData.item.name}
             price={itemData.item.price}
             date={itemData.item.date}
+            cat={itemData.item.cat}
             navigate={editItemHandler}
           />
         )}

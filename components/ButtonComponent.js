@@ -21,12 +21,14 @@ const styles = StyleSheet.create({
   buttonWrapper: {
     borderRadius: 20,
     overflow: "hidden",
+
   },
   buttonStyle: {
     fontSize: 20,
     paddingVertical: 20,
     paddingHorizontal: 30,
     backgroundColor: "#d2acac",
+    
   },
   pressed: {
     opacity: 0.75,

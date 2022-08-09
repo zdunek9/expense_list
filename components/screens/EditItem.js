@@ -89,6 +89,13 @@ export default EditItem;
 const styles = StyleSheet.create({
   wrapper: {
     marginTop: 60,
+    marginHorizontal:20,
+    shadowColor: '#171717',
+    shadowOffset: {width: -2, height: 4},
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 6,
+    shadowColor: '#52006A',
     padding: 15,
     borderRadius: 10,
     backgroundColor: "white",

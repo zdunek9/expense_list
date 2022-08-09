@@ -1,19 +1,25 @@
 import React from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { TimeAgo } from "./helpers/HelpersFunctions";
+import { Categories } from "../components/store/ExpCategories";
 
-function RecentItem({id, name, price, date,navigate }) {
-  function editItemHandler(){
+function RecentItem({ id, name, price, date, navigate, cat }) {
+  function editItemHandler() {
     navigate({
       id,
       name,
       price,
-      date
-    })
+      date,
+    });
+  }
+  function getCategories() {
+    const newItem = Categories.find((item) => item.id === cat);
+    return newItem.icon;
   }
   return (
     <Pressable onPress={editItemHandler}>
       <View style={styles.itemWrapper}>
+        <Image style={styles.iconStyle} source={getCategories()} />
         <View style={styles.nameDate}>
           <Text style={[{ fontSize: 19 }]}>{name}</Text>
           <TimeAgo timestamp={date} />
@@ -33,6 +39,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     justifyContent: "space-between",
     flexDirection: "row",
+    alignItems: "center",
     backgroundColor: "white",
     padding: 15,
     marginVertical: 10,
@@ -45,5 +52,11 @@ const styles = StyleSheet.create({
   },
   nameDate: {
     maxWidth: "75%",
+    flex: 1,
+  },
+  iconStyle: {
+    width: 30,
+    height: 30,
+    marginRight: 20,
   },
 });

@@ -2,7 +2,9 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import RecentScreen from "./screens/RecentScreen";
 import AllExpenses from "./screens/AllExpenses";
-import { StyleSheet } from "react-native";
+import { Image, StyleSheet } from "react-native";
+import { Octicons, AntDesign } from "@expo/vector-icons";
+
 const Tab = createBottomTabNavigator();
 
 function Tabs() {
@@ -10,10 +12,29 @@ function Tabs() {
     <Tab.Navigator
       screenOptions={{
         tabBarStyle: styles.tabNavigation,
+        tabBarShowLabel: false,
+        tabBarActiveTintColor: "black",
+        tabBarInactiveTintColor: "rgb(196, 196, 212)"
       }}
     >
-      <Tab.Screen name="Item List" component={RecentScreen} />
-      <Tab.Screen name="All Expenses" component={AllExpenses} />
+      <Tab.Screen
+        options={{
+          tabBarIcon: ({ color }) => (
+            <AntDesign name="bars" size={30} color={color} />
+          ),
+        }}
+        name="Item List"
+        component={RecentScreen}
+      />
+      <Tab.Screen
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Octicons name="history" size={25} color={color} />
+          ),
+        }}
+        name="All Expenses"
+        component={AllExpenses}
+      />
     </Tab.Navigator>
   );
 }
@@ -21,11 +42,6 @@ function Tabs() {
 export default Tabs;
 const styles = StyleSheet.create({
   tabNavigation: {
-    position: "absolute",
-    borderRadius: 10,
-    bottom: 25,
-    left: 25,
-    right: 25,
-    height: 90,
+    height: 80,
   },
 });
