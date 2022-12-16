@@ -15,7 +15,7 @@ Works on iOS and android.
 
   ### Add item
   
-![Add item](https://i.ibb.co/G0nk8tK/app2.png)
+![Add item](https://i.ibb.co/s90FhLP/app2.png)
 
 
   ### Select Category
